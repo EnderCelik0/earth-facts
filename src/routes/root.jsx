@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "../components/navbar";
+import '../index.css'
+import Planet from "../components/Planet";
 
 export default function Root() {
   return (  
-    <div>
-      <h1>Earth Facts</h1>
-      
-      <Outlet />
+    <div className="min-h-screen bg-rich-black  bg-stars"> 
+      <Navbar />
+      <Planet/>
+      {/* <Outlet /> */}
     </div>
 );
 }
