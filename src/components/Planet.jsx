@@ -1,78 +1,163 @@
-import mercury from '../assets/planet-mercury.svg'
-import mercuryInternal from '../assets/planet-mercury-internal.svg'
-import mercuryGeology from '../assets/geology-mercury.png'
-import source from '../assets/icon-source.svg'
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import source from "../assets/icon-source.svg";
+import { useState } from "react";
 
-export default function Planet() {
-
-  const [internal ,setInternal] = useState(false)
-  const [surface ,setSurface] = useState(false)
+export default function Planet({
+  name,
+  bgHover,
+  overviewContent,
+  overviewSource,
+  structureContent,
+  structureSource,
+  geologyContent,
+  geologySource,
+  rotation,
+  revolution,
+  radius,
+  temperature,
+  planetImage,
+  internalImage,
+  geologyImage,
+}) {
+  const [overview, setOverview] = useState(true);
+  const [internal, setInternal] = useState(false);
+  const [geology, setGeology] = useState(false);
+  const [activeButton, setActiveButton] = useState(0);
 
   return (
-  <>
-
-    <div className="text-white px-40 py-24 gap-60  grid place-items-center  grid-cols-2 ">
-      <div className='relative'>
-
-        {internal ? <img src={mercuryInternal} alt="" /> : <img src={mercury} alt="" />}
-
-        {surface && <img className='absolute -bottom-[135px] right-16 w-40 ' src={mercuryGeology} alt="" />}
-      </div>
-      <div className='flex flex-col gap-10 px-20'>
-
-        <div className='flex flex-col gap-6'>
-          <h1 className='text-antonio-lg font-medium font-antonio'>MERCURY</h1>
-          <p className='text-spartan-regular font-spartan '>Mercury is the smallest planet in the Solar System and the closest to the Sun. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the Sun&apos;s planets. Mercury is one of four terrestrial planets in the Solar System, and is a rocky body like Earth.</p>
-          <p className='flex items-center gap-2'>
-            <span className='opacity-50'>Source :</span> 
-            <span className='opacity-50'>Wikipedia</span> 
-            <img   src={source} alt="" /></p>
+    <div className="px-6 py-8 text-white md:px-10 lg:px-40">
+      <div className="grid grid-cols-1 place-items-center gap-8 lg:grid-cols-2 lg:gap-y-[87px]">
+        <div className="relative">
+          {internal ? (
+            <img src={internalImage} alt="" />
+          ) : (
+            <img src={planetImage} alt="" />
+          )}
+          {geology && (
+            <img
+              className="absolute -bottom-[20%] right-1/2 w-1/3 translate-x-1/2"
+              src={geologyImage}
+              alt=""
+            />
+          )}
         </div>
-        <div className='flex flex-col gap-4 text-white *:hover:bg-turquoise'>
+        <div className="flex w-full max-w-[350px] flex-col gap-8 lg:ml-auto lg:gap-10">
+          <div className="flex flex-col gap-4 text-center lg:gap-6 lg:text-left">
+            <h1 className="text-4xl font-antonio font-medium lg:text-antonio-lg">
+              {name}
+            </h1>
 
-        <button className='flex flex-start py-3 px-7 bg-turquoise gap-4 items-center '>
-          <span className='opacity-50 text-spartan-md'>01</span>
-          <span className='font-spartan font-bold text-spartan-md text-white tracking-spartan-md'>
+            {overview && (
+              <>
+                <p className="text-sm font-spartan lg:text-spartan-regular">
+                  {overviewContent}
+                </p>
+                <p className="flex items-center justify-center gap-2 lg:justify-start">
+                  <span className="opacity-50">Source :</span>
+                  <Link to={overviewSource} className="opacity-50">
+                    Wikipedia
+                  </Link>
+                  <img src={source} alt="" />
+                </p>
+              </>
+            )}
+            {internal && (
+              <>
+                <p className="text-sm font-spartan lg:text-spartan-regular">
+                  {structureContent}
+                </p>
+                <p className="flex items-center justify-center gap-2 lg:justify-start">
+                  <span className="opacity-50">Source :</span>
+                  <Link to={structureSource} className="opacity-50">
+                    Wikipedia
+                  </Link>
+                  <img src={source} alt="" />
+                </p>
+              </>
+            )}
+            {geology && (
+              <>
+                <p className="text-sm font-spartan lg:text-spartan-regular">
+                  {geologyContent}
+                </p>
+                <p className="flex items-center justify-center gap-2 lg:justify-start">
+                  <span className="opacity-50">Source :</span>
+                  <Link to={geologySource} className="opacity-50">
+                    Wikipedia
+                  </Link>
+                  <img src={source} alt="" />
+                </p>
+              </>
+            )}
+          </div>
 
-          OVERVIEW
-          </span>
-        </button>
+          <div className="flex flex-col gap-2 text-white lg:gap-4">
+            <button
+              className={`flex items-center justify-between gap-4 px-5 py-2 lg:justify-start lg:px-7 lg:py-3 ${activeButton === 0 ? bgHover : "hover:bg-dark-gray"} border border-white border-opacity-20 transition-colors duration-200`}
+              onClick={() => {
+                setActiveButton(0);
+                setOverview(true);
+                if (internal) setInternal(false);
+                if (geology) setGeology(false);
+              }}
+            >
+              <span className="text-xs opacity-50 lg:text-spartan-md">01</span>
+              <span className="text-xs tracking-widest font-spartan font-bold text-white lg:text-spartan-md lg:tracking-spartan-md">
+                OVERVIEW
+              </span>
+            </button>
 
-        <button className='flex flex-start py-3 px-7 bg-turquoise gap-4 items-center ' onClick={() => setInternal(!internal)}>
-          <span className='opacity-50 text-spartan-md'>01</span>
-          <span className='font-spartan font-bold text-spartan-md text-white tracking-spartan-md'>
+            <button
+              className={`flex items-center justify-between gap-4 px-5 py-2 lg:justify-start lg:px-7 lg:py-3 ${activeButton === 1 ? bgHover : "hover:bg-dark-gray"} border border-white border-opacity-20 transition-colors duration-200`}
+              onClick={() => {
+                setInternal(true);
+                setActiveButton(1);
+                if (overview) setOverview(false);
+                if (geology) setGeology(false);
+              }}
+            >
+              <span className="text-xs opacity-50 lg:text-spartan-md">02</span>
+              <span className="text-xs tracking-widest font-spartan font-bold text-white lg:text-spartan-md lg:tracking-spartan-md">
+                INTERNAL STRUCTURE
+              </span>
+            </button>
 
-          INTERNAL STRUCTURE
-          </span>
-        </button>
-
-        <button className='flex flex-start py-3 px-7 bg-turquoise gap-4 items-center ' onClick={() => setSurface(!surface)}>
-          <span className='opacity-50 text-spartan-md'>01</span>
-          <span className='font-spartan font-bold text-spartan-md text-white tracking-spartan-md'>SURFACE GEOLOGY</span>
-        </button>
+            <button
+              className={`flex items-center justify-between gap-4 px-5 py-2 lg:justify-start lg:px-7 lg:py-3 ${activeButton === 2 ? bgHover : "hover:bg-dark-gray"} border border-white border-opacity-20 transition-colors duration-200`}
+              onClick={() => {
+                setGeology(true);
+                setActiveButton(2);
+                if (internal) setInternal(false);
+                if (overview) setOverview(false);
+              }}
+            >
+              <span className="text-xs opacity-50 lg:text-spartan-md">03</span>
+              <span className="text-xs tracking-widest font-spartan font-bold text-white lg:text-spartan-md lg:tracking-spartan-md">
+                SURFACE GEOLOGY
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
+      <div className="mt-8 grid grid-cols-1 gap-2 text-white sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-[30px]">
+        <InfoBox infoName="ROTATION TIME" infoValue={rotation} />
+        <InfoBox infoName="RADIUS" infoValue={radius} />
+        <InfoBox infoName="REVOLUTION TIME" infoValue={revolution} />
+        <InfoBox infoName="AVG. TEMPERATURE" infoValue={temperature} />
       </div>
-
-      
-      
     </div>
-
-    <div className='flex justify-between w-full gap-[30px] text-white px-40'>
-    <InfoBox infoName='ROTATION TIME' infoValue='58.6 DAYS'/>
-    <InfoBox infoName='ROTATION TIME' infoValue='58.6 DAYS'/>
-    <InfoBox infoName='ROTATION TIME' infoValue='58.6 DAYS'/>
-    <InfoBox infoName='ROTATION TIME' infoValue='58.6 DAYS'/>
-  </div>
-  </>
   );
 }
 
-const InfoBox = ({infoName, infoValue}) => {
-  return ( 
-    <div className='flex flex-col gap-1 py-4 pl-3 pr-28 text-nowrap  border border-opacity-20 mb-10'>
-      <h1 className='text-spartan-md font-bold opacity-50 font-spartan'>{infoName}</h1>
-      <p className='text-antonio-md font-medium tracking-antonio-md font-antonio'>{infoValue}</p>
+const InfoBox = ({ infoName, infoValue }) => {
+  return (
+    <div className="flex flex-row items-center justify-between gap-1 text-nowrap border border-white border-opacity-20 p-3 sm:flex-col sm:items-start sm:justify-start lg:py-4 lg:pl-3">
+      <h1 className="text-xs font-spartan font-bold opacity-50 lg:text-spartan-md">
+        {infoName}
+      </h1>
+      <p className="text-xl tracking-wide font-antonio font-medium lg:text-antonio-md lg:tracking-antonio-md">
+        {infoValue}
+      </p>
     </div>
   );
-}
+};
